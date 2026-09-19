@@ -23,6 +23,8 @@ celery = Celery(
     backend=backend_url if backend_url else None
 )
 
+import ssl
+
 celery_conf = {
     "timezone": "Asia/Kolkata",
     "enable_utc": False,
@@ -37,11 +39,11 @@ celery_conf = {
     "task_reject_on_worker_lost": True,
 }
 
-if broker_url.startswith("rediss://"):
-    celery_conf["broker_use_ssl"] = {"ssl_cert_reqs": "CERT_NONE"}
+if broker_url and broker_url.startswith("rediss://"):
+    celery_conf["broker_use_ssl"] = {"ssl_cert_reqs": ssl.CERT_NONE}
 
-if backend_url.startswith("rediss://"):
-    celery_conf["redis_backend_use_ssl"] = {"ssl_cert_reqs": "CERT_NONE"}
+if backend_url and backend_url.startswith("rediss://"):
+    celery_conf["redis_backend_use_ssl"] = {"ssl_cert_reqs": ssl.CERT_NONE}
 
 celery.conf.update(
     **celery_conf,
