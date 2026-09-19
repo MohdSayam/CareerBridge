@@ -27,7 +27,6 @@ def is_strong_password(password):
 def generate_otp():
     return str(random.randint(100000, 999999))
 
-from app.tasks import send_otp_email_task
 
 @auth_bp.route("/register", methods=["POST"])
 def register():
@@ -92,6 +91,7 @@ def register():
 
         db.session.commit()
         
+        from app.tasks import send_otp_email_task
         send_otp_email_task.delay(email, otp)
 
         return jsonify({"message": "Registration successful. Please check your email for OTP verification."}), 201
