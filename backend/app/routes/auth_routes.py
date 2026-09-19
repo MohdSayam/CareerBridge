@@ -45,8 +45,18 @@ def register():
     if not is_strong_password(password):
         return jsonify({"message": "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character."}), 400
 
-    if User.query.filter_by(email=email).first():
-        return jsonify({"message": "Email already registered"}), 400
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
+        if existing_user.is_verified:
+            return jsonify({"message": "Email already registered"}), 400
+        else:
+            # User started registration but never verified. Overwrite their unverified account.
+            if existing_user.role == "student" and existing_user.student:
+                db.session.delete(existing_user.student)
+            elif existing_user.role == "company" and existing_user.company:
+                db.session.delete(existing_user.company)
+            db.session.delete(existing_user)
+            db.session.commit()
 
     otp = generate_otp()
     otp_expiry = datetime.utcnow() + timedelta(minutes=10)
