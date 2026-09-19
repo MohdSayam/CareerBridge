@@ -313,10 +313,8 @@ Company evaluates, takes notes → Saved to database
 - 📝 Private evaluation notes (company only)
 - 👤 Candidate resume quick-view
 
-**For internet calls (different networks):** Run the TURN server once:
-```bash
-sudo bash setup_turn_server.sh
-```
+**For internet calls (different networks):** 
+By default, the platform uses free public STUN servers which handles ~80% of peer-to-peer connections. To guarantee 100% connectivity across strict university/corporate firewalls in a production environment, you should configure a free public TURN server (e.g. [Metered.ca](https://www.metered.ca/stun-turn)) and add the credentials to your Vercel environment variables: `VITE_TURN_SERVER`, `VITE_TURN_USERNAME`, and `VITE_TURN_CREDENTIAL`.
 
 ---
 
