@@ -12,6 +12,7 @@ from flask_mail import Message
 from app.mail import mail
 
 from app.models import db, User, Student, Company
+from app.cache import cache
 
 auth_bp = Blueprint(
     "auth",
@@ -47,68 +48,23 @@ def register():
 
     existing_user = User.query.filter_by(email=email).first()
     if existing_user:
-        if existing_user.is_verified:
-            return jsonify({"message": "Email already registered"}), 400
-        else:
-            # User started registration but never verified. Overwrite their unverified account.
-            if existing_user.role == "student" and existing_user.student:
-                db.session.delete(existing_user.student)
-            elif existing_user.role == "company" and existing_user.company:
-                db.session.delete(existing_user.company)
-            db.session.delete(existing_user)
-            db.session.commit()
+        return jsonify({"message": "Email already registered"}), 400
 
     otp = generate_otp()
-    otp_expiry = datetime.utcnow() + timedelta(minutes=10)
-
-    new_user = User(
-        email=email,
-        password_hash=generate_password_hash(password),
-        role=role,
-        is_verified=False,
-        otp_code=otp,
-        otp_expiry=otp_expiry
-    )
     
-    try:
-        db.session.add(new_user)
-        db.session.commit()
-
-        if role == "student":
-            new_student = Student(
-                user_id=new_user.id,
-                full_name=name,
-                education="",
-                branch="",
-                cgpa=0.0,
-                graduation_year=0,
-                skills="",
-                resume_path="",
-                profile_picture_url=f"https://ui-avatars.com/api/?name={urllib.parse.quote_plus(name)}&background=random"
-            )
-            db.session.add(new_student)
-        else:
-            new_company = Company(
-                user_id=new_user.id,
-                company_name=name,
-                description="",
-                industry="",
-                website="",
-                location="",
-                profile_picture_url=f"https://ui-avatars.com/api/?name={urllib.parse.quote_plus(name)}&background=random"
-            )
-            db.session.add(new_company)
-
-        db.session.commit()
-        
-        from app.tasks import send_otp_email_task
-        send_otp_email_task.delay(email, otp)
-
-        return jsonify({"message": "OTP sent to your email. Please verify to complete registration."}), 201
+    # Store pending registration in Redis for 10 minutes
+    pending_data = {
+        "password": password,
+        "name": name,
+        "role": role,
+        "otp": otp
+    }
+    cache.set(f"registration_otp_{email}", pending_data, timeout=600)
     
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({"message": "Registration failed", "error": str(e)}), 500
+    from app.tasks import send_otp_email_task
+    send_otp_email_task.delay(email, otp)
+
+    return jsonify({"message": "OTP sent to your email. Please verify to complete registration."}), 201
     
 @auth_bp.route("/verify-email", methods=["POST"])
 def verify_email():
@@ -116,22 +72,58 @@ def verify_email():
     email = data.get("email")
     otp = data.get("otp")
     
-    user = User.query.filter_by(email=email).first()
-    if not user:
-        return jsonify({"message": "User not found"}), 404
+    pending_data = cache.get(f"registration_otp_{email}")
+    if not pending_data:
+        return jsonify({"message": "Invalid or expired OTP. Please register again."}), 400
         
-    if user.is_verified:
-        return jsonify({"message": "Email is already verified"}), 400
+    if pending_data["otp"] != otp:
+        return jsonify({"message": "Invalid OTP"}), 400
         
-    if user.otp_code != otp or datetime.utcnow() > user.otp_expiry:
-        return jsonify({"message": "Invalid or expired OTP"}), 400
-        
-    user.is_verified = True
-    user.otp_code = None
-    user.otp_expiry = None
-    db.session.commit()
+    # OTP is valid, now we insert into the database
+    new_user = User(
+        email=email,
+        password_hash=generate_password_hash(pending_data["password"]),
+        role=pending_data["role"],
+        is_active=True,
+        is_verified=True
+    )
     
-    return jsonify({"message": "Email verified successfully"}), 200
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+
+        if pending_data["role"] == "student":
+            new_student = Student(
+                user_id=new_user.id,
+                full_name=pending_data["name"],
+                education="",
+                branch="",
+                cgpa=0.0,
+                graduation_year=0,
+                skills="",
+                resume_path="",
+                profile_picture_url=f"https://ui-avatars.com/api/?name={urllib.parse.quote_plus(pending_data['name'])}&background=random"
+            )
+            db.session.add(new_student)
+        else:
+            new_company = Company(
+                user_id=new_user.id,
+                company_name=pending_data["name"],
+                description="",
+                industry="",
+                website="",
+                location="",
+                profile_picture_url=f"https://ui-avatars.com/api/?name={urllib.parse.quote_plus(pending_data['name'])}&background=random"
+            )
+            db.session.add(new_company)
+
+        db.session.commit()
+        cache.delete(f"registration_otp_{email}")
+        return jsonify({"message": "Email verified successfully"}), 200
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": "Registration failed", "error": str(e)}), 500
 
 @auth_bp.route("/login", methods=["POST"])
 def login():
