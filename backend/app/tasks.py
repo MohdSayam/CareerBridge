@@ -48,6 +48,36 @@ def format_ist(dt):
     return dt.strftime("%d %b %Y at %I:%M %p IST")
 
 
+@celery.task
+def send_otp_email_task(recipient_email, otp):
+    """Sends the OTP verification email asynchronously."""
+    with app.app_context():
+        html = f"""
+        <html><body style="font-family:sans-serif; color:#1e293b; max-width:480px; margin:auto;">
+          <div style="background:#0f172a; padding:24px; border-radius:12px 12px 0 0;">
+            <h2 style="color:white; margin:0;">CareerBridge</h2>
+          </div>
+          <div style="padding:32px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:0 0 12px 12px;">
+            <h3 style="color:#0f172a;">Verify your account</h3>
+            <p>Use the code below to verify your email address:</p>
+            <div style="background:#0f172a; color:#5eead4; font-size:36px; font-weight:bold; letter-spacing:12px; padding:20px; border-radius:12px; text-align:center; margin:24px 0;">
+              {otp}
+            </div>
+            <p style="color:#64748b; font-size:13px;">This code expires in 10 minutes. If you didn't request this, ignore this email.</p>
+            <p style="color:#94a3b8; font-size:12px; margin-top:24px;">— CareerBridge Team</p>
+          </div>
+        </html>
+        """
+        body = f"Your CareerBridge verification code is: {otp}\nThis code expires in 10 minutes."
+        send_email(
+            subject="Verify your CareerBridge account",
+            recipients=[recipient_email],
+            body=body,
+            html=html
+        )
+
+
+
 # ─── Tasks ────────────────────────────────────────────────────────────────────
 
 @celery.task
