@@ -7,18 +7,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 broker_url = os.environ.get("CELERY_BROKER_URL", "")
-if broker_url.startswith("redis://") and "upstash.io" in broker_url:
-    # Auto-fix Upstash URLs to use TLS (rediss://)
+if broker_url.startswith("redis://") and "upstash" in broker_url:
     broker_url = broker_url.replace("redis://", "rediss://", 1)
 
 backend_url = os.environ.get("CELERY_RESULT_BACKEND", "")
-if backend_url.startswith("redis://") and "upstash.io" in backend_url:
+if backend_url.startswith("redis://") and "upstash" in backend_url:
     backend_url = backend_url.replace("redis://", "rediss://", 1)
 
 celery = Celery(
     "placement_portal",
-    broker=broker_url,
-    backend=backend_url
+    broker=broker_url if broker_url else None,
+    backend=backend_url if backend_url else None
 )
 
 celery_conf = {
@@ -35,9 +34,10 @@ celery_conf = {
     "task_reject_on_worker_lost": True,
 }
 
-# Add SSL config if using Upstash TLS
 if broker_url.startswith("rediss://"):
     celery_conf["broker_use_ssl"] = {"ssl_cert_reqs": "CERT_NONE"}
+
+if backend_url.startswith("rediss://"):
     celery_conf["redis_backend_use_ssl"] = {"ssl_cert_reqs": "CERT_NONE"}
 
 celery.conf.update(
