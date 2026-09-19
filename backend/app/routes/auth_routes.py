@@ -104,7 +104,7 @@ def register():
         from app.tasks import send_otp_email_task
         send_otp_email_task.delay(email, otp)
 
-        return jsonify({"message": "Registration successful. Please check your email for OTP verification."}), 201
+        return jsonify({"message": "OTP sent to your email. Please verify to complete registration."}), 201
     
     except Exception as e:
         db.session.rollback()

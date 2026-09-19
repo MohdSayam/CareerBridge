@@ -438,3 +438,33 @@ def keep_alive_ping():
             return f"Ping successful: {response.status}"
     except Exception as e:
         return f"Ping failed: {str(e)}"
+
+@celery.task
+def cleanup_unverified_users():
+    """
+    Runs daily. Deletes any unverified users that were created more than 24 hours ago.
+    This keeps the database clean of abandoned registrations.
+    """
+    with app.app_context():
+        now = datetime.now(IST).replace(tzinfo=None)
+        cutoff_time = now - timedelta(hours=24)
+        
+        # Find all users who are unverified and were created before the cutoff
+        unverified_users = User.query.filter(
+            User.is_verified == False,
+            User.created_at < cutoff_time
+        ).all()
+        
+        deleted_count = 0
+        for user in unverified_users:
+            if user.role == "student" and user.student:
+                db.session.delete(user.student)
+            elif user.role == "company" and user.company:
+                db.session.delete(user.company)
+            db.session.delete(user)
+            deleted_count += 1
+            
+        if deleted_count > 0:
+            db.session.commit()
+            
+        return f"Deleted {deleted_count} unverified users."

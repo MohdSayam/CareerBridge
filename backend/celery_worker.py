@@ -79,6 +79,13 @@ celery.conf.update(
             "schedule": crontab(minute="*/13")
         },
 
+        # ── Cleanup ───────────────────────────────────────────────────────────
+        # Deletes abandoned, unverified users from the database daily at 2 AM
+        "cleanup-unverified-users-daily": {
+            "task": "app.tasks.cleanup_unverified_users",
+            "schedule": crontab(hour=2, minute=0)
+        },
+
     }
 )
 
