@@ -6,13 +6,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-broker_url = os.environ.get("CELERY_BROKER_URL", "")
-if broker_url.startswith("redis://") and "upstash" in broker_url:
-    broker_url = broker_url.replace("redis://", "rediss://", 1)
+# Auto-fix Upstash URLs to use TLS (rediss://)
+# We must mutate os.environ because Celery automatically reads CELERY_BROKER_URL natively
+if "CELERY_BROKER_URL" in os.environ and os.environ["CELERY_BROKER_URL"].startswith("redis://") and "upstash" in os.environ["CELERY_BROKER_URL"]:
+    os.environ["CELERY_BROKER_URL"] = os.environ["CELERY_BROKER_URL"].replace("redis://", "rediss://", 1)
 
+if "CELERY_RESULT_BACKEND" in os.environ and os.environ["CELERY_RESULT_BACKEND"].startswith("redis://") and "upstash" in os.environ["CELERY_RESULT_BACKEND"]:
+    os.environ["CELERY_RESULT_BACKEND"] = os.environ["CELERY_RESULT_BACKEND"].replace("redis://", "rediss://", 1)
+
+broker_url = os.environ.get("CELERY_BROKER_URL", "")
 backend_url = os.environ.get("CELERY_RESULT_BACKEND", "")
-if backend_url.startswith("redis://") and "upstash" in backend_url:
-    backend_url = backend_url.replace("redis://", "rediss://", 1)
 
 celery = Celery(
     "placement_portal",
