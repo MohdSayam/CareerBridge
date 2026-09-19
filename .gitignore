@@ -1,0 +1,40 @@
+# Python / Flask / Celery
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+venv/
+env/
+.env
+.env.local
+instance/
+*.db
+*.sqlite
+*.sqlite3
+celerybeat-schedule
+celerybeat-schedule-shm
+celerybeat-schedule-wal
+celerybeat-schedule*
+celerybeat.pid
+
+# Redis dumps — never commit these
+dump.rdb
+*.rdb
+
+# User-uploaded files — stored externally (Cloudinary)
+backend/uploads/
+uploads/
+
+# Node / Vue / Vite
+node_modules/
+dist/
+*.log
+
+# IDEs & OS
+.vscode/
+.idea/
+.DS_Store
+reports/
+
+# Docker env override
+docker-compose.override.yml

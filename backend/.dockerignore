@@ -1,0 +1,18 @@
+# Never copy these into the Docker image
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+.env.local
+*.db
+*.sqlite
+celerybeat-schedule*
+celerybeat.pid
+dump.rdb
+*.rdb
+uploads/
+.git/
+.gitignore
+README.md
+*.md

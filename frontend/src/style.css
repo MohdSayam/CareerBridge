@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-trust-blue: #1e3a8a;
+  --color-trust-blue-light: #1e40af;
+  --color-emerald-green: #10b981;
+  --color-premium-gold: #d97706;
+  --color-platinum-grey: #f4f5f7;
+  
+  --font-sans: "Barlow", sans-serif;
+  --font-heading: "Raleway", sans-serif;
+  --font-accent: "Carrois Gothic", sans-serif;
+  
+  --animate-shimmer: shimmer 1.5s infinite;
+  
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}
+
+@layer base {
+  html {
+    /* Scale up the entire app slightly to compensate for the 125% zoom design mistake */
+    font-size: 112.5%; /* 18px base instead of 16px */
+  }
+}
