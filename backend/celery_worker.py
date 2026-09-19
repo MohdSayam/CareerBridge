@@ -72,6 +72,13 @@ celery.conf.update(
             "schedule": crontab(day_of_week=1, hour=9, minute=0)  # Monday 9 AM
         },
 
+        # ── Keep-alive ────────────────────────────────────────────────────────
+        # Pings the Render app every 13 minutes so the free tier never sleeps
+        "keep-alive-every-13-mins": {
+            "task": "app.tasks.keep_alive_ping",
+            "schedule": crontab(minute="*/13")
+        },
+
     }
 )
 

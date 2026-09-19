@@ -9,6 +9,8 @@ import pytz
 import csv
 import io
 import logging
+import os
+import urllib.request
 
 logger = logging.getLogger(__name__)
 IST = pytz.timezone("Asia/Kolkata")
@@ -391,5 +393,18 @@ def export_student_applications(student_id):
             content_type="text/csv",
             attachment_data=csv_bytes
         )
-
         return "CSV exported and emailed successfully."
+
+
+@celery.task
+def keep_alive_ping():
+    """
+    Pings the server every 13 minutes to prevent Render free tier from sleeping.
+    """
+    try:
+        url = os.environ.get("RENDER_EXTERNAL_URL", "http://127.0.0.1:10000")
+        req = urllib.request.Request(url, method="HEAD")
+        with urllib.request.urlopen(req, timeout=10) as response:
+            return f"Ping successful: {response.status}"
+    except Exception as e:
+        return f"Ping failed: {str(e)}"
