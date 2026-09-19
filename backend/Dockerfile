@@ -1,18 +1,16 @@
 # ─── CareerBridge Backend ───────────────────────────────────────────────────
-# Used for:
-#   Flask API    → CMD gunicorn -c gunicorn.conf.py run:app
-#   Celery Worker→ CMD celery -A celery_worker.celery worker --loglevel=info
-#   Celery Beat  → CMD celery -A celery_worker.celery beat  --loglevel=info
-# Render lets you set a custom start command per service, all using this image.
+# Runs Flask API, Celery Worker, and Celery Beat in a single container
+# using supervisord so it can be deployed on a single free Render Web Service.
 # ────────────────────────────────────────────────────────────────────────────
 
 FROM python:3.11-slim
 
-# System deps (psycopg2 needs libpq)
+# System deps (psycopg2 needs libpq, supervisor runs the multiple processes)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     gcc \
     curl \
+    supervisor \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -24,11 +22,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Create uploads directory (Cloudinary handles storage, but keep local fallback)
+# Create uploads directory
 RUN mkdir -p uploads
 
 # Expose Flask port
 EXPOSE 5000
 
-# Default: run production Flask via gunicorn + eventlet (for SocketIO)
-CMD ["gunicorn", "-c", "gunicorn.conf.py", "run:app"]
+# Run everything via supervisord
+CMD ["/usr/bin/supervisord", "-c", "/app/supervisord.conf"]

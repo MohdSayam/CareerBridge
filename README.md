@@ -250,12 +250,11 @@ git push origin main
 2. Connect your GitHub repository
 3. Set **Root Directory** → `backend`
 4. Set **Environment** → `Docker`
-5. Set **Start Command** → `gunicorn -c gunicorn.conf.py run:app`
+5. Set **Start Command** → *(leave blank, the Dockerfile handles it)*
 6. Add all environment variables from `backend/.env.template`
 7. Deploy → copy the Render URL (e.g., `https://careerbridge-api.onrender.com`)
 
-**Celery Worker** → New **Background Worker** → same repo → `backend/` → Start: `celery -A celery_worker.celery worker --loglevel=info`  
-**Celery Beat** → New **Background Worker** → same repo → `backend/` → Start: `celery -A celery_worker.celery beat --loglevel=info`
+> **Note:** The Docker container uses `supervisord` to automatically run the Flask API, Celery Worker, and Celery Beat scheduler **inside this single free web service**. You do not need to create separate background workers.
 
 #### 4. Deploy Frontend on Vercel
 1. Go to [vercel.com](https://vercel.com) → **New Project** → import GitHub repo
