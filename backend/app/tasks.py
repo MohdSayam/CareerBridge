@@ -425,16 +425,3 @@ def export_student_applications(student_id):
         )
         return "CSV exported and emailed successfully."
 
-
-@celery.task
-def keep_alive_ping():
-    """
-    Pings the server every 13 minutes to prevent Render free tier from sleeping.
-    """
-    try:
-        url = os.environ.get("RENDER_EXTERNAL_URL", "http://127.0.0.1:10000")
-        req = urllib.request.Request(url, method="HEAD")
-        with urllib.request.urlopen(req, timeout=10) as response:
-            return f"Ping successful: {response.status}"
-    except Exception as e:
-        return f"Ping failed: {str(e)}"
