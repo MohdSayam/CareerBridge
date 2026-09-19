@@ -6,25 +6,42 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+broker_url = os.environ.get("CELERY_BROKER_URL", "")
+if broker_url.startswith("redis://") and "upstash.io" in broker_url:
+    # Auto-fix Upstash URLs to use TLS (rediss://)
+    broker_url = broker_url.replace("redis://", "rediss://", 1)
+
+backend_url = os.environ.get("CELERY_RESULT_BACKEND", "")
+if backend_url.startswith("redis://") and "upstash.io" in backend_url:
+    backend_url = backend_url.replace("redis://", "rediss://", 1)
+
 celery = Celery(
     "placement_portal",
-    broker=os.environ.get("CELERY_BROKER_URL"),
-    backend=os.environ.get("CELERY_RESULT_BACKEND")
+    broker=broker_url,
+    backend=backend_url
 )
 
-celery.conf.update(
-    timezone="Asia/Kolkata",
-    enable_utc=False,
+celery_conf = {
+    "timezone": "Asia/Kolkata",
+    "enable_utc": False,
 
     # Serialization
-    task_serializer="json",
-    result_serializer="json",
-    accept_content=["json"],
+    "task_serializer": "json",
+    "result_serializer": "json",
+    "accept_content": ["json"],
 
     # Reliability
-    task_acks_late=True,
-    task_reject_on_worker_lost=True,
+    "task_acks_late": True,
+    "task_reject_on_worker_lost": True,
+}
 
+# Add SSL config if using Upstash TLS
+if broker_url.startswith("rediss://"):
+    celery_conf["broker_use_ssl"] = {"ssl_cert_reqs": "CERT_NONE"}
+    celery_conf["redis_backend_use_ssl"] = {"ssl_cert_reqs": "CERT_NONE"}
+
+celery.conf.update(
+    **celery_conf,
     beat_schedule={
 
         # ── Hourly: interview reminders ──────────────────────────────────────
