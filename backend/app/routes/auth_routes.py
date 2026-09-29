@@ -8,8 +8,6 @@ import random
 import re
 import os
 import urllib.parse
-from flask_mail import Message
-from app.mail import mail
 
 from app.models import db, User, Student, Company
 from app.cache import cache
