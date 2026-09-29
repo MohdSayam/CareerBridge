@@ -8,6 +8,8 @@
 &nbsp;·&nbsp;
 🎬 **[Watch Product Demo →](#)** *(video coming soon)*
 
+> ⚡ **First-time visitors:** The backend is hosted on Render's free tier and goes to sleep after 15 minutes of inactivity. Your **very first action** (login, register, etc.) might take up to **60 seconds** to respond while the server wakes up. Just wait — don't refresh — and after that everything is fast and normal!
+
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-3.1-000000?style=flat-square&logo=flask)
 ![Vue 3](https://img.shields.io/badge/Vue-3.5-42B883?style=flat-square&logo=vuedotjs&logoColor=white)
