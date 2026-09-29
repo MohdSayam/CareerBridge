@@ -131,8 +131,8 @@
           </div>
         </div>
 
-        <div v-if="!isVerifying" class="mt-4">
-          <GoogleLogin :callback="handleGoogleLogin" class="w-full flex justify-center" />
+        <div v-if="!isVerifying" class="mt-4 flex justify-center">
+          <GoogleLogin :callback="handleGoogleLogin" />
         </div>
 
         <div class="mt-6 text-center">

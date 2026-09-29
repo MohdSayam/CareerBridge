@@ -87,8 +87,8 @@
           </div>
         </div>
 
-        <div class="mt-6">
-          <GoogleLogin :callback="handleGoogleLogin" class="w-full flex justify-center" />
+        <div class="mt-6 flex justify-center">
+          <GoogleLogin :callback="handleGoogleLogin" />
         </div>
 
         <div class="mt-10 text-center">

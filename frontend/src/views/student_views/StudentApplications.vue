@@ -98,7 +98,7 @@ export default {
       if (s === 'rejected')    return 'bg-red-50 text-red-700 border-red-200'
       return 'bg-slate-50 text-slate-600 border-slate-200'
     },
-    joinInterview(appId) { this.$router.push(`/interview/${appId}`) }
+    joinInterview(appId) { this.$router.push(`/student/interview/${appId}`) }
   }
 }
 </script>

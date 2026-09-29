@@ -1,15 +1,15 @@
 <template>
   <div class="space-y-8 animate-in fade-in duration-500">
     <!-- Header -->
-    <div class="flex items-center justify-between mb-2">
+    <div class="flex flex-wrap items-start justify-between gap-3 mb-2">
       <div>
         <div class="inline-flex items-center px-3 py-1 rounded-full bg-teal-50 border border-teal-100 text-teal-700 text-xs font-bold uppercase tracking-widest mb-3">
           <span class="w-1.5 h-1.5 rounded-full bg-teal-500 mr-2 animate-pulse"></span>
           Overview
         </div>
-        <h2 class="text-4xl font-heading font-extrabold text-slate-900 tracking-tight">Dashboard</h2>
+        <h2 class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 tracking-tight">Dashboard</h2>
       </div>
-      <button @click="loadDashboard" class="flex items-center px-5 py-2.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-teal-300 hover:text-teal-700 transition-all text-slate-600 font-semibold text-sm shadow-sm group">
+      <button @click="loadDashboard" class="flex items-center px-4 py-2 sm:px-5 sm:py-2.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-teal-300 hover:text-teal-700 transition-all text-slate-600 font-semibold text-sm shadow-sm group mt-1">
         <RefreshCcw class="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-500 text-slate-400 group-hover:text-teal-600" :class="{ 'animate-spin': loading }" /> Refresh
       </button>
     </div>
