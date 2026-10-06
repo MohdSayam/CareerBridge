@@ -50,17 +50,20 @@ def register():
 
     otp = generate_otp()
     
-    # Store pending registration in Redis for 10 minutes
-    pending_data = {
-        "password": password,
-        "name": name,
-        "role": role,
-        "otp": otp
-    }
-    cache.set(f"registration_otp_{email}", pending_data, timeout=600)
-    
-    from app.tasks import send_otp_email_task
-    send_otp_email_task.delay(email, otp)
+    try:
+        # Store pending registration in Redis for 10 minutes
+        pending_data = {
+            "password": password,
+            "name": name,
+            "role": role,
+            "otp": otp
+        }
+        cache.set(f"registration_otp_{email}", pending_data, timeout=600)
+        
+        from app.tasks import send_otp_email_task
+        send_otp_email_task.delay(email, otp)
+    except Exception as e:
+        return jsonify({"message": "Registration service temporarily unavailable (Redis limit reached). Please try again later."}), 500
 
     return jsonify({"message": "OTP sent to your email. Please verify to complete registration."}), 201
     
@@ -70,7 +73,11 @@ def verify_email():
     email = data.get("email")
     otp = data.get("otp")
     
-    pending_data = cache.get(f"registration_otp_{email}")
+    try:
+        pending_data = cache.get(f"registration_otp_{email}")
+    except Exception as e:
+        return jsonify({"message": "Verification service temporarily unavailable (Redis limit reached). Please try again later."}), 500
+        
     if not pending_data:
         return jsonify({"message": "Invalid or expired OTP. Please register again."}), 400
         
@@ -116,7 +123,10 @@ def verify_email():
             db.session.add(new_company)
 
         db.session.commit()
-        cache.delete(f"registration_otp_{email}")
+        try:
+            cache.delete(f"registration_otp_{email}")
+        except Exception:
+            pass # Non-critical if delete fails
         return jsonify({"message": "Email verified successfully"}), 200
         
     except Exception as e:
