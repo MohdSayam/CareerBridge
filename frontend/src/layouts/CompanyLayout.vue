@@ -5,17 +5,15 @@
     <div v-if="isMobileMenuOpen" class="fixed inset-0 z-50 bg-black/50 lg:hidden backdrop-blur-sm" @click="isMobileMenuOpen = false"></div>
 
     <!-- Sidebar -->
-    <aside :class="['fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white flex flex-col transition-transform duration-300 ease-in-out lg:static lg:translate-x-0', isMobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full']">
+    <aside :class="['fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ease-in-out lg:static lg:translate-x-0', isMobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full']">
       
       <!-- Brand -->
-      <div class="h-20 flex items-center justify-between px-6 border-b border-slate-800">
+      <div class="h-20 flex items-center justify-between px-6 border-b border-gray-100">
         <router-link to="/company" class="flex items-center space-x-3" @click="isMobileMenuOpen = false">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shadow-lg border border-indigo-400/30">
-            <Building2 class="w-6 h-6 text-white" />
-          </div>
-          <span class="font-heading font-bold text-xl tracking-tight text-white">Career<span class="text-indigo-400">Bridge</span></span>
+          <img src="/favicon.svg" alt="CareerBridge" class="w-8 h-8" />
+          <span class="font-extrabold text-xl tracking-tight text-gray-900">CareerBridge</span>
         </router-link>
-        <button @click="isMobileMenuOpen = false" class="lg:hidden text-slate-400 hover:text-white transition">
+        <button @click="isMobileMenuOpen = false" class="lg:hidden text-gray-400 hover:text-gray-900 transition">
           <X class="w-6 h-6" />
         </button>
       </div>
@@ -23,18 +21,18 @@
       <!-- Navigation -->
       <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto custom-scrollbar">
         <router-link v-for="link in navLinks" :key="link.path" :to="link.path" @click="isMobileMenuOpen = false"
-          class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group"
-          :class="[isLinkActive(link) ? 'bg-indigo-600 text-white font-semibold shadow-inner' : 'text-slate-400 hover:bg-slate-800 hover:text-white']">
-          <component :is="link.icon" class="w-5 h-5 mr-3 transition-transform group-hover:scale-110" :class="[isLinkActive(link) ? 'text-white' : 'text-slate-400']" />
+          class="flex items-center px-4 py-3 rounded-lg transition-all duration-200 group font-medium"
+          :class="[isLinkActive(link) ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900']">
+          <component :is="link.icon" class="w-5 h-5 mr-3 transition-transform" :class="[isLinkActive(link) ? 'text-indigo-600' : 'text-gray-400 group-hover:text-gray-600']" />
           {{ link.label }}
         </router-link>
       </nav>
 
       <!-- Footer Action -->
-      <div class="p-4 border-t border-slate-800">
-        <button @click="logout" class="flex items-center w-full px-4 py-3 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-all duration-200 group">
-          <LogOut class="w-5 h-5 mr-3 transition-transform group-hover:-translate-x-1" />
-          <span class="font-medium">Logout</span>
+      <div class="p-4 border-t border-gray-100">
+        <button @click="logout" class="flex items-center w-full px-4 py-3 rounded-lg text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all duration-200 group font-medium">
+          <LogOut class="w-5 h-5 mr-3 text-gray-400 group-hover:text-red-500" />
+          <span>Logout</span>
         </button>
       </div>
     </aside>
@@ -43,10 +41,10 @@
     <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden relative">
       
       <!-- Mobile Header -->
-      <header class="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 lg:hidden shadow-sm z-30">
+      <header class="h-14 bg-white border-b border-gray-100 flex items-center justify-between px-4 lg:hidden shadow-sm z-30">
         <div class="flex items-center space-x-2">
-          <Building2 class="w-6 h-6 text-indigo-600" />
-          <span class="font-heading font-bold text-lg text-slate-900">Career<span class="text-indigo-600">Bridge</span></span>
+          <img src="/favicon.svg" alt="CareerBridge" class="w-6 h-6" />
+          <span class="font-extrabold text-lg text-gray-900">CareerBridge</span>
         </div>
       </header>
 

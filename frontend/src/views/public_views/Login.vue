@@ -6,10 +6,8 @@
       <div class="max-w-md w-full mx-auto">
         <!-- Brand/Logo -->
         <router-link to="/" class="flex items-center space-x-2.5 mb-10">
-          <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow shadow-indigo-500/30">
-            <span class="text-white font-black text-xs">CB</span>
-          </div>
-          <span class="font-bold text-xl tracking-tight text-gray-900">Career<span class="text-indigo-600">Bridge</span></span>
+          <img src="/favicon.svg" alt="CareerBridge" class="w-8 h-8" />
+          <span class="font-extrabold text-xl tracking-tight text-gray-900">CareerBridge</span>
         </router-link>
 
         <div class="mb-8">
@@ -94,57 +92,50 @@
     </div>
 
     <!-- Right side: Visual Panel -->
-    <div class="hidden lg:flex lg:flex-1 relative bg-gray-950 overflow-hidden flex-col justify-between p-14">
-      <!-- Background gradients -->
-      <div class="absolute inset-0">
-        <div class="absolute top-1/4 left-1/3 w-80 h-80 bg-indigo-600/25 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-violet-600/20 rounded-full blur-3xl"></div>
-        <div class="absolute top-1/2 left-1/2 w-48 h-48 bg-cyan-600/10 rounded-full blur-3xl"></div>
-      </div>
+    <div class="hidden lg:block lg:flex-1 relative bg-gray-50 overflow-hidden">
+      <!-- Full background image -->
+      <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=1000&auto=format&fit=crop" alt="Professional working" class="absolute inset-0 w-full h-full object-cover" />
+      
+      <!-- Gradient overlay to ensure text readability -->
+      <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent"></div>
 
-      <!-- Logo -->
-      <div class="relative flex items-center gap-2.5 z-10">
-        <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-          <span class="text-white font-black text-xs">CB</span>
+      <!-- Content -->
+      <div class="absolute inset-0 flex flex-col justify-between p-14">
+        <!-- Logo -->
+        <div class="flex items-center gap-2.5 z-10">
+          <img src="/favicon.svg" alt="CareerBridge" class="w-8 h-8 filter brightness-0 invert" />
+          <span class="font-extrabold text-white text-xl">CareerBridge</span>
         </div>
-        <span class="font-bold text-white text-lg">CareerBridge</span>
-      </div>
 
-      <!-- Center content -->
-      <div class="relative z-10 flex-1 flex flex-col justify-center">
-        <h2 class="text-4xl font-black text-white leading-tight tracking-tight mb-5">
-          Your next opportunity<br/>
-          <span class="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">is one click away.</span>
-        </h2>
-        <p class="text-gray-400 text-base leading-relaxed max-w-sm mb-10">
-          Connecting talented students with top companies through a seamless placement experience — built from the ground up for modern campuses.
-        </p>
+        <!-- Bottom Content -->
+        <div class="relative z-10 max-w-md">
+          <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 mb-8">
+            <h2 class="text-3xl font-bold text-white mb-3 leading-tight">
+              Access top-tier campus talent and premium opportunities.
+            </h2>
+            <p class="text-gray-200 text-sm leading-relaxed">
+              Join thousands of verified students and verified companies bridging the gap between campus and career.
+            </p>
+          </div>
 
-        <!-- Feature pills -->
-        <div class="flex flex-col gap-3">
-          <div v-for="feat in panelFeatures" :key="feat.text" class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" :class="feat.bg">
-              <span class="text-base">{{ feat.icon }}</span>
+          <!-- Bottom testimonial card -->
+          <div class="bg-white rounded-2xl p-6 shadow-xl">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="flex -space-x-2.5">
+                <img class="w-8 h-8 rounded-full border-2 border-white object-cover" src="https://i.pravatar.cc/100?img=11" alt="User">
+                <img class="w-8 h-8 rounded-full border-2 border-white object-cover" src="https://i.pravatar.cc/100?img=22" alt="User">
+                <img class="w-8 h-8 rounded-full border-2 border-white object-cover" src="https://i.pravatar.cc/100?img=33" alt="User">
+              </div>
+              <div class="flex items-center gap-1">
+                <span v-for="n in 5" :key="n" class="text-amber-400 text-sm">★</span>
+              </div>
             </div>
-            <span class="text-gray-300 text-sm font-medium">{{ feat.text }}</span>
+            <p class="text-gray-600 text-sm leading-relaxed italic mb-3">
+              "The most seamless hiring experience we've had on any campus. The in-browser video interviews are game-changing."
+            </p>
+            <p class="text-indigo-600 text-xs font-bold uppercase tracking-wide">— Hiring Manager, TechCorp</p>
           </div>
         </div>
-      </div>
-
-      <!-- Bottom testimonial card -->
-      <div class="relative z-10 bg-white/8 border border-white/10 backdrop-blur-xl rounded-2xl p-6">
-        <div class="flex items-center gap-3 mb-3">
-          <div class="flex -space-x-2.5">
-            <img class="w-8 h-8 rounded-full border-2 border-gray-900 object-cover" src="https://i.pravatar.cc/100?img=11" alt="User">
-            <img class="w-8 h-8 rounded-full border-2 border-gray-900 object-cover" src="https://i.pravatar.cc/100?img=22" alt="User">
-            <img class="w-8 h-8 rounded-full border-2 border-gray-900 object-cover" src="https://i.pravatar.cc/100?img=33" alt="User">
-          </div>
-          <p class="text-gray-300 text-sm">Trusted by students & companies</p>
-        </div>
-        <p class="text-white text-sm leading-relaxed italic">
-          "The interview room works flawlessly right in the browser — no extra downloads, no account needed. Our team loved it."
-        </p>
-        <p class="text-indigo-400 text-xs font-semibold mt-2">— Hiring Manager, TechCorp</p>
       </div>
     </div>
 

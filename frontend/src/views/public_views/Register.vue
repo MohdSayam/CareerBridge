@@ -6,10 +6,8 @@
       <div class="max-w-md w-full mx-auto">
         <!-- Brand/Logo -->
         <router-link to="/" class="flex items-center space-x-2.5 mb-8">
-          <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow shadow-indigo-500/30">
-            <span class="text-white font-black text-xs">CB</span>
-          </div>
-          <span class="font-bold text-xl tracking-tight text-gray-900">Career<span class="text-indigo-600">Bridge</span></span>
+          <img src="/favicon.svg" alt="CareerBridge" class="w-8 h-8" />
+          <span class="font-extrabold text-xl tracking-tight text-gray-900">CareerBridge</span>
         </router-link>
 
         <div class="mb-6">
@@ -153,64 +151,63 @@
     </div>
 
     <!-- Right side: Visual Panel -->
-    <div class="hidden lg:flex lg:flex-1 relative bg-gray-950 overflow-hidden flex-col justify-between p-14">
-      <!-- Background gradients -->
-      <div class="absolute inset-0">
-        <div class="absolute top-1/4 left-1/3 w-80 h-80 bg-indigo-600/25 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-1/3 right-1/4 w-64 h-64 bg-violet-600/20 rounded-full blur-3xl"></div>
-        <div class="absolute top-2/3 left-1/2 w-48 h-48 bg-cyan-600/10 rounded-full blur-3xl"></div>
-      </div>
+    <div class="hidden lg:block lg:flex-1 relative bg-gray-50 overflow-hidden">
+      <!-- Full background image -->
+      <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1000&auto=format&fit=crop" alt="Students collaborating" class="absolute inset-0 w-full h-full object-cover" />
+      
+      <!-- Gradient overlay to ensure text readability -->
+      <div class="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-gray-900/20"></div>
 
-      <!-- Logo -->
-      <div class="relative flex items-center gap-2.5 z-10">
-        <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-          <span class="text-white font-black text-xs">CB</span>
+      <!-- Content -->
+      <div class="absolute inset-0 flex flex-col justify-between p-14">
+        <!-- Logo -->
+        <div class="flex items-center gap-2.5 z-10">
+          <img src="/favicon.svg" alt="CareerBridge" class="w-8 h-8 filter brightness-0 invert" />
+          <span class="font-extrabold text-white text-xl">CareerBridge</span>
         </div>
-        <span class="font-bold text-white text-lg">CareerBridge</span>
-      </div>
 
-      <!-- Center content -->
-      <div class="relative z-10 flex-1 flex flex-col justify-center">
-        <h2 class="text-4xl font-black text-white leading-tight tracking-tight mb-5">
-          Start your placement<br/>
-          <span class="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">journey today.</span>
-        </h2>
-        <p class="text-gray-400 text-base leading-relaxed max-w-sm mb-10">
-          Students get matched with eligible jobs. Companies get a complete hiring pipeline. Everything in one place.
-        </p>
-
-        <!-- Steps -->
-        <div class="flex flex-col gap-4">
-          <div v-for="(step, i) in steps" :key="i" class="flex items-start gap-4">
-            <div class="w-8 h-8 rounded-full bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center shrink-0 text-indigo-400 font-bold text-sm">
-              {{ i + 1 }}
-            </div>
-            <div>
-              <p class="text-white font-semibold text-sm">{{ step.title }}</p>
-              <p class="text-gray-500 text-xs mt-0.5">{{ step.desc }}</p>
+        <!-- Bottom Content -->
+        <div class="relative z-10 max-w-md">
+          <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 mb-8">
+            <h2 class="text-3xl font-bold text-white mb-3 leading-tight">
+              Your career starts here.
+            </h2>
+            <p class="text-gray-200 text-sm leading-relaxed mb-5">
+              Build your premium profile and let top companies discover you based on your verified credentials.
+            </p>
+            
+            <div class="space-y-3">
+              <div v-for="(step, i) in steps" :key="i" class="flex items-start gap-3">
+                <div class="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center shrink-0 text-white font-bold text-xs">
+                  {{ i + 1 }}
+                </div>
+                <div>
+                  <p class="text-white font-semibold text-sm">{{ step.title }}</p>
+                  <p class="text-gray-300 text-xs mt-0.5">{{ step.desc }}</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Bottom social proof card -->
-      <div class="relative z-10 bg-white/8 border border-white/10 backdrop-blur-xl rounded-2xl p-6">
-        <div class="flex items-center gap-3 mb-3">
-          <div class="flex -space-x-2.5">
-            <img class="w-8 h-8 rounded-full border-2 border-gray-900 object-cover" src="https://i.pravatar.cc/100?img=44" alt="User">
-            <img class="w-8 h-8 rounded-full border-2 border-gray-900 object-cover" src="https://i.pravatar.cc/100?img=55" alt="User">
-            <img class="w-8 h-8 rounded-full border-2 border-gray-900 object-cover" src="https://i.pravatar.cc/100?img=66" alt="User">
-            <div class="w-8 h-8 rounded-full border-2 border-gray-900 bg-indigo-600 flex items-center justify-center text-white text-xs font-bold">+k</div>
+          <!-- Bottom social proof card -->
+          <div class="bg-white rounded-2xl p-6 shadow-xl">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="flex -space-x-2.5">
+                <img class="w-8 h-8 rounded-full border-2 border-white object-cover" src="https://i.pravatar.cc/100?img=44" alt="User">
+                <img class="w-8 h-8 rounded-full border-2 border-white object-cover" src="https://i.pravatar.cc/100?img=55" alt="User">
+                <img class="w-8 h-8 rounded-full border-2 border-white object-cover" src="https://i.pravatar.cc/100?img=66" alt="User">
+                <div class="w-8 h-8 rounded-full border-2 border-white bg-indigo-600 flex items-center justify-center text-white text-xs font-bold">+k</div>
+              </div>
+              <div class="flex items-center gap-1">
+                <span v-for="n in 5" :key="n" class="text-amber-400 text-sm">★</span>
+              </div>
+            </div>
+            <p class="text-gray-600 text-sm leading-relaxed italic mb-3">
+              "Found my placement through CareerBridge. The whole process from applying to the interview was in one tab."
+            </p>
+            <p class="text-indigo-600 text-xs font-bold uppercase tracking-wide">— Final Year CS Student</p>
           </div>
-          <p class="text-gray-300 text-sm">Students already registered</p>
         </div>
-        <div class="flex items-center gap-1 mb-1">
-          <span v-for="n in 5" :key="n" class="text-amber-400 text-sm">★</span>
-        </div>
-        <p class="text-white text-sm leading-relaxed italic">
-          "Found my placement through CareerBridge. The whole process from applying to the interview was in one tab."
-        </p>
-        <p class="text-indigo-400 text-xs font-semibold mt-2">— Final Year CS Student</p>
       </div>
     </div>
 

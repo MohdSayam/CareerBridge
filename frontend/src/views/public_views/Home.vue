@@ -25,11 +25,11 @@
     </nav>
 
     <!-- HERO -->
-    <section class="relative pt-36 pb-24 lg:pt-48 lg:pb-32 px-6 lg:px-8 overflow-hidden">
+    <section class="relative pt-24 pb-16 lg:pt-32 lg:pb-24 px-6 lg:px-8 overflow-hidden min-h-[90vh] flex items-center">
       <!-- Subtle background pattern -->
       <div class="absolute inset-0 z-0 opacity-[0.15]" style="background-image: radial-gradient(#9ca3af 1px, transparent 1px); background-size: 24px 24px;"></div>
       
-      <div class="max-w-7xl mx-auto relative z-10 flex flex-col lg:flex-row items-center gap-16">
+      <div class="max-w-7xl mx-auto w-full relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
         <div class="flex-1 text-center lg:text-left">
           <div class="inline-block bg-indigo-50 text-indigo-700 font-bold px-4 py-1.5 rounded-full text-sm mb-6 border border-indigo-100">
             India's Premium Campus Hiring Platform
