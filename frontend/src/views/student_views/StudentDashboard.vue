@@ -131,7 +131,7 @@
               <p class="text-sm font-semibold text-slate-800">{{ formatIST(interview.interview_date) }}</p>
               <p class="text-xs font-bold mt-0.5 text-teal-600">{{ getCountdown(interview.interview_date) }}</p>
             </div>
-            <router-link :to="`/interview/${interview.application_id}`"
+            <router-link :to="`/student/interview/${interview.application_id}`"
               class="flex items-center justify-center gap-2 text-sm font-bold text-white bg-slate-900 hover:bg-teal-700 transition-colors rounded-xl px-4 py-2.5 w-full">
               <Video class="w-4 h-4" /> Join Room
             </router-link>
