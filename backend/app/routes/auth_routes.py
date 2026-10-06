@@ -63,7 +63,7 @@ def register():
         from app.tasks import send_otp_email_task
         send_otp_email_task.delay(email, otp)
     except Exception as e:
-        return jsonify({"message": "Registration service temporarily unavailable (Redis limit reached). Please try again later."}), 500
+        return jsonify({"message": f"Registration service temporarily unavailable: {str(e)}"}), 500
 
     return jsonify({"message": "OTP sent to your email. Please verify to complete registration."}), 201
     
@@ -76,7 +76,7 @@ def verify_email():
     try:
         pending_data = cache.get(f"registration_otp_{email}")
     except Exception as e:
-        return jsonify({"message": "Verification service temporarily unavailable (Redis limit reached). Please try again later."}), 500
+        return jsonify({"message": f"Verification service temporarily unavailable: {str(e)}"}), 500
         
     if not pending_data:
         return jsonify({"message": "Invalid or expired OTP. Please register again."}), 400

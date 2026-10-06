@@ -70,8 +70,8 @@ celery.conf.update(
         "weekly-jobs-digest": {
             "task": "app.tasks.send_weekly_digest",
             "schedule": crontab(day_of_week=1, hour=9, minute=0)  # Monday 9 AM
-        },
-
+        }
+    }
 )
 
 import app.tasks
