@@ -34,15 +34,8 @@ import InterviewRoom from "../views/InterviewRoom.vue"
 const routes = [
     {
         path: "/",
-        component: PublicLayout,
-
-        children: [
-            {
-                path: "",
-                name: "Home",
-                component: Home
-            }
-        ]
+        name: "Home",
+        component: Home
     },
 
     {
