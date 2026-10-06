@@ -60,6 +60,10 @@ def register():
         }
         cache.set(f"registration_otp_{email}", pending_data, timeout=600)
         
+        # --- Fallback for testing ---
+        print(f"\n[DEV FALLBACK] OTP for {email} is: {otp}\n", flush=True)
+        # ----------------------------
+        
         from app.tasks import send_otp_email_task
         send_otp_email_task.delay(email, otp)
     except Exception as e:
