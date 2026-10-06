@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-6">
+  <div class="space-y-5">
     <!-- Header -->
     <div class="flex items-center justify-between">
       <h2 class="text-3xl font-heading font-bold text-trust-blue">Admin Overview</h2>
