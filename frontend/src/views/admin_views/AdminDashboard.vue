@@ -117,7 +117,7 @@
 
     <!-- Analytics Chart -->
     <h3 class="text-xl font-heading font-semibold text-gray-800 mt-8 mb-4">Placements Overview</h3>
-    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8 h-80">
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8 h-64">
       <Bar v-if="chartData.labels.length" :data="chartData" :options="chartOptions" />
       <div v-else class="h-full flex items-center justify-center text-gray-400">Loading chart data...</div>
     </div>
