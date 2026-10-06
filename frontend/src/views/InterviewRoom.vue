@@ -1,15 +1,15 @@
 <template>
-  <div class="flex flex-col bg-gray-950 rounded-2xl overflow-hidden shadow-2xl" style="height: 90vh;">
+  <div class="flex flex-col bg-white rounded-2xl overflow-hidden shadow-2xl border border-gray-200" style="height: 90vh;">
     
     <!-- Header Bar -->
-    <div class="bg-gray-900 border-b border-gray-800 px-6 py-3 flex items-center justify-between flex-shrink-0">
+    <div class="bg-gray-50 border-b border-gray-200 px-6 py-3 flex items-center justify-between flex-shrink-0">
       <div class="flex items-center space-x-3">
         <div class="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center shadow-md">
           <Video class="w-5 h-5 text-white" />
         </div>
         <div>
           <div class="flex items-center space-x-2">
-            <h2 class="text-white font-bold text-base">Virtual Interview Room</h2>
+            <h2 class="text-gray-900 font-bold text-base">Virtual Interview Room</h2>
             <span v-if="callActive" class="flex items-center space-x-1 px-2 py-0.5 bg-green-600/20 border border-green-500/30 rounded-full">
               <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
               <span class="text-green-400 text-[10px] font-bold uppercase tracking-wider">Live</span>
@@ -17,11 +17,11 @@
             <span v-else-if="connectionState === 'connecting'" class="px-2 py-0.5 bg-yellow-500/20 border border-yellow-500/30 rounded-full text-yellow-400 text-[10px] font-bold uppercase tracking-wider">
               Connecting...
             </span>
-            <span v-else class="px-2 py-0.5 bg-gray-700 rounded-full text-gray-400 text-[10px] font-bold uppercase tracking-wider">
+            <span v-else class="px-2 py-0.5 bg-gray-200 rounded-full text-gray-600 text-[10px] font-bold uppercase tracking-wider">
               Waiting for peer...
             </span>
           </div>
-          <p class="text-gray-400 text-xs mt-0.5">
+          <p class="text-gray-500 text-xs mt-0.5">
             {{ role === 'company' 
               ? 'Candidate: ' + (applicationDetails?.student_name || 'Loading...') 
               : 'Company: ' + (applicationDetails?.job?.company_name || applicationDetails?.company_name || 'Loading...') }}
@@ -31,7 +31,7 @@
 
       <!-- Call Timer & End -->
       <div class="flex items-center space-x-3">
-        <div v-if="callActive" class="text-gray-300 text-sm font-mono bg-gray-800 px-3 py-1.5 rounded-lg border border-gray-700">
+        <div v-if="callActive" class="text-gray-700 text-sm font-mono bg-white px-3 py-1.5 rounded-lg border border-gray-200 shadow-sm">
           {{ callDuration }}
         </div>
         <button @click="endCall" class="flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition shadow-md">
@@ -44,17 +44,17 @@
     <div class="flex-1 flex overflow-hidden">
       
       <!-- Video Area -->
-      <div class="flex-1 relative bg-gray-950 flex flex-col">
+      <div class="flex-1 relative bg-gray-100 flex flex-col">
         
         <!-- Waiting / Error State -->
         <div v-if="!callActive" class="absolute inset-0 flex flex-col items-center justify-center text-center px-8 z-10">
           <div v-if="statusMessage" class="flex flex-col items-center">
-            <div class="w-20 h-20 bg-indigo-600/10 border-2 border-indigo-500/30 rounded-full flex items-center justify-center mb-6">
-              <Loader2 v-if="connectionState === 'connecting'" class="w-10 h-10 text-indigo-400 animate-spin" />
-              <Users v-else class="w-10 h-10 text-indigo-400" />
+            <div class="w-20 h-20 bg-indigo-50 border-2 border-indigo-200 rounded-full flex items-center justify-center mb-6 shadow-sm">
+              <Loader2 v-if="connectionState === 'connecting'" class="w-10 h-10 text-indigo-500 animate-spin" />
+              <Users v-else class="w-10 h-10 text-indigo-500" />
             </div>
-            <h3 class="text-white text-xl font-bold mb-2">{{ statusMessage }}</h3>
-            <p class="text-gray-400 text-sm max-w-sm">{{ statusSubtext }}</p>
+            <h3 class="text-gray-900 text-xl font-bold mb-2">{{ statusMessage }}</h3>
+            <p class="text-gray-500 text-sm max-w-sm">{{ statusSubtext }}</p>
           </div>
         </div>
 
@@ -68,17 +68,17 @@
         ></video>
 
         <!-- Remote video placeholder when active but no stream -->
-        <div v-if="callActive && !remoteStreamActive" class="absolute inset-0 flex items-center justify-center bg-gray-900">
+        <div v-if="callActive && !remoteStreamActive" class="absolute inset-0 flex items-center justify-center bg-gray-100">
           <div class="text-center">
-            <div class="w-24 h-24 bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3">
-              <User class="w-12 h-12 text-gray-400" />
+            <div class="w-24 h-24 bg-white border border-gray-200 rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
+              <User class="w-12 h-12 text-gray-300" />
             </div>
-            <p class="text-gray-400 text-sm">Camera is off</p>
+            <p class="text-gray-500 text-sm font-medium">Camera is off</p>
           </div>
         </div>
 
         <!-- Local Video (Picture-in-Picture) -->
-        <div class="absolute bottom-4 right-4 w-44 h-32 bg-gray-800 rounded-xl overflow-hidden shadow-2xl border-2 border-gray-700 cursor-move z-20">
+        <div class="absolute bottom-24 right-4 w-44 h-32 bg-gray-900 rounded-xl overflow-hidden shadow-xl border border-gray-300 cursor-move z-20">
           <video 
             ref="localVideo" 
             autoplay 
@@ -87,8 +87,8 @@
             class="w-full h-full object-cover"
             :class="videoEnabled ? 'opacity-100' : 'opacity-0'"
           ></video>
-          <div v-if="!videoEnabled" class="absolute inset-0 flex items-center justify-center bg-gray-800">
-            <VideoOff class="w-8 h-8 text-gray-500" />
+          <div v-if="!videoEnabled" class="absolute inset-0 flex items-center justify-center bg-gray-900">
+            <VideoOff class="w-8 h-8 text-gray-400" />
           </div>
           <span class="absolute bottom-1.5 left-2 text-white text-[9px] font-bold bg-black/60 px-1.5 py-0.5 rounded">
             You ({{ role }})
@@ -97,13 +97,13 @@
 
         <!-- Controls Bar -->
         <div class="absolute bottom-0 left-0 right-0 pb-4 flex justify-center z-20">
-          <div class="flex items-center space-x-3 bg-gray-900/90 backdrop-blur-sm border border-gray-800 rounded-2xl px-6 py-3 shadow-2xl">
+          <div class="flex items-center space-x-3 bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl px-6 py-3 shadow-xl">
             
             <!-- Mic -->
             <button 
               @click="toggleMic"
-              class="w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-lg"
-              :class="micEnabled ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-red-600 hover:bg-red-700 text-white'"
+              class="w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-sm"
+              :class="micEnabled ? 'bg-gray-100 hover:bg-gray-200 text-gray-700' : 'bg-red-50 hover:bg-red-100 text-red-600'"
               :title="micEnabled ? 'Mute' : 'Unmute'"
             >
               <Mic v-if="micEnabled" class="w-5 h-5" />
@@ -113,8 +113,8 @@
             <!-- Camera -->
             <button 
               @click="toggleVideo"
-              class="w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-lg"
-              :class="videoEnabled ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-red-600 hover:bg-red-700 text-white'"
+              class="w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-sm"
+              :class="videoEnabled ? 'bg-gray-100 hover:bg-gray-200 text-gray-700' : 'bg-red-50 hover:bg-red-100 text-red-600'"
               :title="videoEnabled ? 'Turn off camera' : 'Turn on camera'"
             >
               <Video v-if="videoEnabled" class="w-5 h-5" />
@@ -124,8 +124,8 @@
             <!-- Screen Share -->
             <button 
               @click="toggleScreenShare"
-              class="w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-lg"
-              :class="screenSharing ? 'bg-indigo-600 hover:bg-indigo-700 text-white' : 'bg-gray-700 hover:bg-gray-600 text-white'"
+              class="w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-sm"
+              :class="screenSharing ? 'bg-indigo-100 hover:bg-indigo-200 text-indigo-700' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'"
               :title="screenSharing ? 'Stop sharing' : 'Share screen'"
             >
               <MonitorUp class="w-5 h-5" />
@@ -144,25 +144,25 @@
       </div>
 
       <!-- Right Panel: Notes / Candidate Info -->
-      <div class="w-80 bg-gray-900 border-l border-gray-800 flex flex-col overflow-hidden flex-shrink-0">
+      <div class="w-80 bg-white border-l border-gray-200 flex flex-col overflow-hidden flex-shrink-0">
         
         <!-- Candidate Info (Company View) -->
-        <div v-if="role === 'company' && applicationDetails" class="p-4 border-b border-gray-800">
-          <h3 class="text-gray-300 text-xs font-bold uppercase tracking-wider mb-3 flex items-center">
-            <User class="w-3.5 h-3.5 mr-1.5 text-indigo-400" /> Candidate Overview
+        <div v-if="role === 'company' && applicationDetails" class="p-4 border-b border-gray-200">
+          <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-3 flex items-center">
+            <User class="w-3.5 h-3.5 mr-1.5 text-indigo-500" /> Candidate Overview
           </h3>
-          <div class="bg-gray-800 rounded-xl p-3 space-y-2">
+          <div class="bg-gray-50 border border-gray-100 rounded-xl p-3 space-y-2">
             <div class="flex items-center space-x-2">
-              <img v-if="applicationDetails.profile_picture_url" :src="applicationDetails.profile_picture_url" class="w-10 h-10 rounded-full object-cover border border-gray-700" />
-              <div v-else class="w-10 h-10 rounded-full bg-indigo-600/30 flex items-center justify-center text-indigo-300 font-bold">
+              <img v-if="applicationDetails.profile_picture_url" :src="applicationDetails.profile_picture_url" class="w-10 h-10 rounded-full object-cover border border-gray-200" />
+              <div v-else class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
                 {{ applicationDetails.student_name?.charAt(0) }}
               </div>
               <div>
-                <p class="text-white text-sm font-bold">{{ applicationDetails.student_name }}</p>
-                <p class="text-gray-400 text-xs">{{ applicationDetails.branch }} • {{ applicationDetails.cgpa }} CGPA</p>
+                <p class="text-gray-900 text-sm font-bold">{{ applicationDetails.student_name }}</p>
+                <p class="text-gray-500 text-xs">{{ applicationDetails.branch }} • {{ applicationDetails.cgpa }} CGPA</p>
               </div>
             </div>
-            <a v-if="applicationDetails.resume_path" :href="applicationDetails.resume_path" target="_blank" class="flex items-center justify-center w-full py-1.5 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 text-xs font-bold rounded-lg border border-indigo-500/20 transition">
+            <a v-if="applicationDetails.resume_path" :href="applicationDetails.resume_path" target="_blank" class="flex items-center justify-center w-full py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 text-xs font-bold rounded-lg border border-indigo-200 transition">
               <FileText class="w-3.5 h-3.5 mr-1.5" /> View Resume
             </a>
           </div>
@@ -170,8 +170,8 @@
 
         <!-- Notes / Tips -->
         <div class="flex-1 p-4 flex flex-col overflow-hidden">
-          <h3 class="text-gray-300 text-xs font-bold uppercase tracking-wider mb-3 flex items-center">
-            <ClipboardList class="w-3.5 h-3.5 mr-1.5 text-amber-400" />
+          <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-3 flex items-center">
+            <ClipboardList class="w-3.5 h-3.5 mr-1.5 text-amber-500" />
             {{ role === 'company' ? 'Private Notes' : 'Interview Tips' }}
           </h3>
 
@@ -179,7 +179,7 @@
           <div v-if="role === 'company'" class="flex-1 flex flex-col">
             <textarea 
               v-model="notes" 
-              class="flex-1 w-full bg-gray-800 border border-gray-700 text-gray-200 rounded-xl p-3 text-sm resize-none focus:outline-none focus:border-indigo-500 placeholder-gray-600"
+              class="flex-1 w-full bg-white border border-gray-300 text-gray-900 rounded-xl p-3 text-sm resize-none focus:outline-none focus:border-indigo-500 placeholder-gray-400 shadow-sm"
               placeholder="Technical skills, communication, red flags..."
             ></textarea>
             <button 
@@ -195,42 +195,42 @@
 
           <!-- Student: Tips -->
           <div v-else class="space-y-3">
-            <div v-for="tip in interviewTips" :key="tip.title" class="flex items-start space-x-3 bg-gray-800 rounded-xl p-3 border border-gray-700">
-              <div class="w-8 h-8 bg-green-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Check class="w-4 h-4 text-green-400" />
+            <div v-for="tip in interviewTips" :key="tip.title" class="flex items-start space-x-3 bg-gray-50 rounded-xl p-3 border border-gray-200">
+              <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Check class="w-4 h-4 text-green-600" />
               </div>
               <div>
-                <p class="text-white text-sm font-bold">{{ tip.title }}</p>
-                <p class="text-gray-400 text-xs mt-0.5 leading-relaxed">{{ tip.desc }}</p>
+                <p class="text-gray-900 text-sm font-bold">{{ tip.title }}</p>
+                <p class="text-gray-500 text-xs mt-0.5 leading-relaxed">{{ tip.desc }}</p>
               </div>
             </div>
           </div>
         </div>
         <!-- Company: Actions -->
-        <div v-if="role === 'company' && applicationDetails" class="border-t border-gray-800 p-4">
-          <h3 class="text-gray-300 text-xs font-bold uppercase tracking-wider mb-3 flex items-center">
-            <Check class="w-3.5 h-3.5 mr-1.5 text-green-400" /> Quick Actions
+        <div v-if="role === 'company' && applicationDetails" class="border-t border-gray-200 p-4">
+          <h3 class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-3 flex items-center">
+            <Check class="w-3.5 h-3.5 mr-1.5 text-green-500" /> Quick Actions
           </h3>
           <div class="grid grid-cols-2 gap-2 mb-3">
             <button @click="updateStatus('shortlisted')"
               :disabled="updatingStatus"
-              class="py-2 rounded-lg text-xs font-bold transition border" 
-              :class="currentStatus === 'shortlisted' ? 'bg-blue-600 text-white border-blue-500' : 'bg-gray-800 text-gray-300 border-gray-700 hover:border-blue-500 hover:text-blue-300'"
+              class="py-2 rounded-lg text-xs font-bold transition border shadow-sm" 
+              :class="currentStatus === 'shortlisted' ? 'bg-blue-600 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-200 hover:border-blue-500 hover:text-blue-600'"
             >Shortlist</button>
             <button @click="updateStatus('interview')"
               :disabled="updatingStatus"
-              class="py-2 rounded-lg text-xs font-bold transition border"
-              :class="currentStatus === 'interview' ? 'bg-indigo-600 text-white border-indigo-500' : 'bg-gray-800 text-gray-300 border-gray-700 hover:border-indigo-500 hover:text-indigo-300'"
+              class="py-2 rounded-lg text-xs font-bold transition border shadow-sm"
+              :class="currentStatus === 'interview' ? 'bg-indigo-600 text-white border-indigo-500' : 'bg-white text-gray-700 border-gray-200 hover:border-indigo-500 hover:text-indigo-600'"
             >In Progress</button>
             <button @click="updateStatus('selected')"
               :disabled="updatingStatus"
-              class="py-2 rounded-lg text-xs font-bold transition border"
-              :class="currentStatus === 'selected' ? 'bg-amber-600 text-white border-amber-500' : 'bg-gray-800 text-gray-300 border-gray-700 hover:border-amber-500 hover:text-amber-300'"
+              class="py-2 rounded-lg text-xs font-bold transition border shadow-sm"
+              :class="currentStatus === 'selected' ? 'bg-amber-500 text-white border-amber-600' : 'bg-white text-gray-700 border-gray-200 hover:border-amber-500 hover:text-amber-600'"
             >Select ✓</button>
             <button @click="updateStatus('rejected')"
               :disabled="updatingStatus"
-              class="py-2 rounded-lg text-xs font-bold transition border"
-              :class="currentStatus === 'rejected' ? 'bg-red-700 text-white border-red-600' : 'bg-gray-800 text-gray-300 border-gray-700 hover:border-red-500 hover:text-red-300'"
+              class="py-2 rounded-lg text-xs font-bold transition border shadow-sm"
+              :class="currentStatus === 'rejected' ? 'bg-red-600 text-white border-red-600' : 'bg-white text-gray-700 border-gray-200 hover:border-red-500 hover:text-red-600'"
             >Reject ✗</button>
           </div>
           <p v-if="statusUpdated" class="text-green-400 text-xs font-semibold text-center mt-1">✓ Status updated</p>
@@ -241,13 +241,13 @@
     </div>
 
     <!-- Post-Interview Outcome Banner -->
-    <div v-if="showOutcomeBanner" class="absolute inset-0 bg-gray-950/90 backdrop-blur-sm flex items-center justify-center z-50">
-      <div class="bg-gray-900 border border-gray-700 rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-2xl">
-        <div class="w-16 h-16 bg-indigo-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <PhoneOff class="w-8 h-8 text-indigo-400" />
+    <div v-if="showOutcomeBanner" class="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+      <div class="bg-white border border-gray-200 rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-2xl">
+        <div class="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-indigo-100">
+          <PhoneOff class="w-8 h-8 text-indigo-500" />
         </div>
-        <h3 class="text-white text-xl font-bold mb-2">Interview Ended</h3>
-        <p class="text-gray-400 text-sm mb-6">The call has ended. {{ role === 'company' ? 'Please update the candidate status before leaving.' : 'Thank you for attending! You will hear back from the company soon.' }}</p>
+        <h3 class="text-gray-900 text-xl font-bold mb-2">Interview Ended</h3>
+        <p class="text-gray-500 text-sm mb-6">The call has ended. {{ role === 'company' ? 'Please update the candidate status before leaving.' : 'Thank you for attending! You will hear back from the company soon.' }}</p>
         <div v-if="role === 'company'" class="grid grid-cols-2 gap-3 mb-4">
           <button @click="quickUpdateAndLeave('selected')" class="py-3 px-4 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold text-sm transition">Mark Selected</button>
           <button @click="quickUpdateAndLeave('rejected')" class="py-3 px-4 bg-red-700 hover:bg-red-800 text-white rounded-xl font-bold text-sm transition">Mark Rejected</button>

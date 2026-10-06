@@ -50,7 +50,7 @@
 
       <!-- Page Content -->
       <main class="flex-1 overflow-y-auto bg-slate-50/50 p-4 pb-20 sm:p-6 lg:p-8 lg:pb-8 w-full custom-scrollbar">
-        <div class="max-w-7xl mx-auto h-full">
+        <div class="w-full h-full">
           <router-view v-slot="{ Component }">
             <transition name="fade" mode="out-in">
               <component :is="Component" />
