@@ -1,8 +1,8 @@
 <template>
-  <div class="flex h-screen overflow-hidden">
+  <div class="flex min-h-screen lg:h-screen lg:overflow-hidden">
 
     <!-- Left side: Form -->
-    <div class="w-full lg:w-[45%] flex flex-col justify-center px-8 md:px-12 xl:px-16 bg-white overflow-y-auto py-8">
+    <div class="w-full lg:w-[45%] flex flex-col justify-center px-5 sm:px-8 md:px-12 xl:px-16 bg-white overflow-y-auto py-8 sm:py-12">
       <div class="max-w-md w-full mx-auto">
         <!-- Brand/Logo -->
         <router-link to="/" class="flex items-center space-x-2.5 mb-8">

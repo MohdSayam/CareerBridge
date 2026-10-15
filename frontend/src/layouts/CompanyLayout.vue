@@ -46,6 +46,9 @@
           <img src="/favicon.svg" alt="CareerBridge" class="w-6 h-6" />
           <span class="font-extrabold text-lg text-gray-900">CareerBridge</span>
         </div>
+        <button @click="isMobileMenuOpen = true" class="p-2 -mr-1 text-slate-500 hover:text-slate-900 transition-colors rounded-lg hover:bg-slate-100" aria-label="Open navigation menu">
+          <Menu class="w-5 h-5" />
+        </button>
       </header>
 
       <!-- Page Content -->

@@ -22,7 +22,11 @@
 
 @layer base {
   html {
-    /* Scale up the entire app slightly to compensate for the 125% zoom design mistake */
-    font-size: 112.5%; /* 18px base instead of 16px */
+    font-size: 100%;
+  }
+  @media (min-width: 1024px) {
+    html {
+      font-size: 112.5%; /* 18px base on desktop */
+    }
   }
 }
